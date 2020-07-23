@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { MuiThemeProvider,createMuiTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button' //<Button variant="contained"
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 const theme = createMuiTheme({
     /* theme for v1.x */
@@ -13,76 +13,116 @@ const theme = createMuiTheme({
 
 
 class UserDetail extends Component {
-    change = e => {
-        this.props.onChange({ [e.target.name]: e.target.value });
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    };
-
-
-    continue = (e) => {
-        e.preventDefault();
-        this.props.nextStep()
+    state = {
+        formData: {
+            firsName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            repeatPass: ''
+        },
+        submitted: false,
     }
-    render() {
-        const {values, handleChange} =this.props;
+    componentDidMount() {
+        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+            const { formData } = this.state;
+            if (value !== formData.password) {
+                return false;
+            }
+            return true;
+        });
+    }
 
+handleChange = (event) => {
+    const { formData } = this.state;
+    formData[event.target.name] = event.target.value;
+    if (event.target.name === 'password') {
+        this.form.isFormValid(false);
+    }
+    this.setState({ formData });
+}
+handleSubmit = () => {
+    this.setState({submitted: true}, () => {
+        setTimeout(() => this.setState({submitted: false}), 5000);
+    });
+}
+
+
+    render() {
+
+        const { formData, submitted } = this.state;
         return (
             <MuiThemeProvider theme={theme} >
                 <React.Fragment>
                     <AppBar position='static'>
                         <h1>Sign up, dude</h1>
                     </AppBar>
-                    <TextField
-                        placeholder="Enter Your First Name"
-                        label="First Name"
-                        onChange={handleChange('firstName')}
-                        defaultValue={values.firstName}
-                        margin="normal"
-
-                    />
-                    <br/>
-                    <TextField
-                        placeholder="Enter Your Last Name"
-                        label="Last Name"
-                        onChange={handleChange('lastName')}
-                        defaultValue={values.lastName}
-                        margin="normal"
-                    />
-                    <br/>
-                    <TextField
-                        placeholder="Enter Your email"
-                        label="Email"
-                        onChange={handleChange('email')}
-                        defaultValue={values.email}
-                        margin="normal"
-                    />
-                    <br/>
-                    <TextField
-                        placeholder="Enter Your Password"
-                        label="Password"
-                        type="password"
-                        onChange={handleChange('password')}
-                        defaultValue={values.password}
-                        margin="normal"
-                    />
-                    <br/>
-                    <TextField
-                        placeholder="Enter Your password again"
-                        label="Password again"
-                        type="password"
-                        onChange={handleChange('confirmPass')}
-                        defaultValue={values.confirmPass}
-                        margin="normal"
-                    />
-                    <br/>
-                    <Button
-                        color="primary"
-                        type="submit"
-                        variant="contained"
-                        onClick={this.continue}
-                    >Confirm</Button>
+                    <ValidatorForm
+                        ref={r => (this.form = r)}
+                        onSubmit={this.handleSubmit}
+                    >
+                        <h2>Enter your info</h2>
+                        <TextValidator
+                            label="Name"
+                            onChange={this.handleChange}
+                            name="firstName"
+                            value={formData.firstName}
+                            validators={['required']}
+                            errorMessages={['this field is required', 'field can not be empty!']}
+                        />
+                        <br/>
+                        <TextValidator
+                            label="Surname"
+                            onChange={this.handleChange}
+                            name="lastName"
+                            value={formData.lastName}
+                            validators={['required']}
+                            errorMessages={['this field is required', 'field can not be empty!']}
+                        />
+                        <br/>
+                        <TextValidator
+                            label="Email"
+                            onChange={this.handleChange}
+                            name="email"
+                            value={formData.email}
+                            validators={['required', 'isEmail']}
+                            errorMessages={['this field is required', 'email is not valid']}
+                        />
+                        <br />
+                        <TextValidator
+                            label="Password"
+                            onChange={this.handleChange}
+                            name="password"
+                            type="password"
+                            validators={['required']}
+                            errorMessages={['this field is required']}
+                            value={formData.password}
+                        />
+                       <br/>
+                        <TextValidator
+                            label="Repeat password"
+                            onChange={this.handleChange}
+                            name="repeatPassword"
+                            type="password"
+                            validators={['isPasswordMatch', 'required']}
+                            errorMessages={['password mismatch', 'this field is required']}
+                            value={formData.repeatPassword}
+                        />
+                        <br/>
+                        <br/>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            type="submit"
+                            disabled={submitted}
+                            onClick={this.continue}
+                        >
+                            {
+                                (submitted && 'Signed up!')
+                                || (!submitted && 'Submit')
+                            }
+                        </Button>
+                    </ValidatorForm>
                 </React.Fragment>
             </MuiThemeProvider>
         );
