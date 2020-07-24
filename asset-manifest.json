@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Wakkaba-github-io/static/css/main.5f361e03.chunk.css",
+    "main.js": "/Wakkaba-github-io/static/js/main.c3bbdfda.chunk.js",
+    "main.js.map": "/Wakkaba-github-io/static/js/main.c3bbdfda.chunk.js.map",
+    "runtime-main.js": "/Wakkaba-github-io/static/js/runtime-main.f2014e51.js",
+    "runtime-main.js.map": "/Wakkaba-github-io/static/js/runtime-main.f2014e51.js.map",
+    "static/js/2.c5004aa0.chunk.js": "/Wakkaba-github-io/static/js/2.c5004aa0.chunk.js",
+    "static/js/2.c5004aa0.chunk.js.map": "/Wakkaba-github-io/static/js/2.c5004aa0.chunk.js.map",
+    "index.html": "/Wakkaba-github-io/index.html",
+    "precache-manifest.eaeac5cce05949a16000463034c81c62.js": "/Wakkaba-github-io/precache-manifest.eaeac5cce05949a16000463034c81c62.js",
+    "service-worker.js": "/Wakkaba-github-io/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/Wakkaba-github-io/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.c5004aa0.chunk.js.LICENSE.txt": "/Wakkaba-github-io/static/js/2.c5004aa0.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f2014e51.js",
+    "static/js/2.c5004aa0.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.c3bbdfda.chunk.js"
+  ]
+}
